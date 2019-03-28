@@ -11,7 +11,6 @@ from MNIST_help import get_mnist
 X_train, y_train, X_test, y_test = get_mnist()
 print(X_train.shape,X_test.shape)
 
-
 # import LogisticRegression_raw
 logreg_SGD = SGDClassifier(loss='log',max_iter=400)
 start_time = time.time()

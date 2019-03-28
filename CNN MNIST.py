@@ -19,13 +19,11 @@ torch.manual_seed(0);
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 # XCnn = X.reshape(-1, 1, 28, 28)
 
-mndata = MNIST(os.path.join('MNIST')) # use this way if run locally, since MNIST is downloaded already
-XCnn_train, y_train = mndata.load_training()
-XCnn_test, y_test = mndata.load_testing()
-XCnn_train = XCnn_train.reshape(-1, 1, 28, 28)
-XCnn_test = XCnn_test.reshape(-1, 1, 28, 28)
-XCnn_train,y_train = np.array(XCnn_train).astype('float32')/255,np.array(y_train).astype('int64')
-XCnn_test, y_test = np.array(XCnn_test).astype('float32')/255,np.array(y_test).astype('int64')
+from MNIST_help import get_mnist
+
+X_train, y_train, X_test, y_test = get_mnist()
+XCnn_train = X_train.reshape(-1, 1, 28, 28)
+XCnn_test = X_test.reshape(-1, 1, 28, 28)
 
 
 

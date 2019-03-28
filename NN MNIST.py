@@ -8,7 +8,6 @@ import numpy as np
 from mnist import MNIST
 import os
 
-
 from MNIST_help import get_mnist
 
 X_train, y_train, X_test, y_test = get_mnist()
