@@ -8,9 +8,8 @@ import numpy as np
 from mnist import MNIST
 import os
 
-from MNIST_help import get_mnist
-
-X_train, y_train, X_test, y_test = get_mnist()
+MNIST_helper= MNIST_helper('MNIST')
+X_train, y_train, X_test, y_test = MNIST_helper.get_mnist()
 
 torch.manual_seed(0);
 device = 'cuda' if torch.cuda.is_available() else 'cpu'

@@ -7,7 +7,7 @@ import time,os
 class MNIST_helper:
     def __init__(self, dir):
         self.dir= dir
-        self.mndata = MNIST(os.path.join(dir)
+        self.mndata = MNIST(os.path.join(dir))
         mndata = MNIST(os.path.join('MNIST')) # use this way if run locally, since MNIST is downloaded already
         X_train, y_train = mndata.load_training()
         X_test, y_test = mndata.load_testing()

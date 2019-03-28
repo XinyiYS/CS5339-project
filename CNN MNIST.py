@@ -19,9 +19,8 @@ torch.manual_seed(0);
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 # XCnn = X.reshape(-1, 1, 28, 28)
 
-from MNIST_help import get_mnist
-
-X_train, y_train, X_test, y_test = get_mnist()
+MNIST_helper= MNIST_helper('MNIST')
+X_train, y_train, X_test, y_test = MNIST_helper.get_mnist()
 XCnn_train = X_train.reshape(-1, 1, 28, 28)
 XCnn_test = X_test.reshape(-1, 1, 28, 28)
 

@@ -5,10 +5,10 @@ from sklearn.linear_model import LogisticRegression,SGDClassifier
 import numpy as np
 import time,os
 from LogisticRegression_raw import LogisticRegression as LR_raw
-from MNIST_help import get_mnist
+from MNIST_helper import MNIST_helper
 
-
-X_train, y_train, X_test, y_test = get_mnist()
+MNIST_helper= MNIST_helper('MNIST')
+X_train, y_train, X_test, y_test = MNIST_helper.get_mnist()
 print(X_train.shape,X_test.shape)
 
 # import LogisticRegression_raw
