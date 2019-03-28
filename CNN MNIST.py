@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 from sklearn.datasets import fetch_openml
 from skorch import NeuralNetClassifier
+import time,os
 
 
 # mnist = fetch_openml('mnist_784', cache=False)
@@ -18,7 +19,7 @@ torch.manual_seed(0);
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 # XCnn = X.reshape(-1, 1, 28, 28)
 
-mndata = MNIST('./MNIST') # use this way if run locally, since MNIST is downloaded already
+mndata = MNIST(os.path.join('MNIST')) # use this way if run locally, since MNIST is downloaded already
 XCnn_train, y_train = mndata.load_training()
 XCnn_test, y_test = mndata.load_testing()
 XCnn_train = XCnn_train.reshape(-1, 1, 28, 28)
@@ -58,5 +59,3 @@ cnn = NeuralNetClassifier(
 cnn.fit(XCnn_train, y_train)
 cnn_pred = cnn.predict(XCnn_test)
 print(np.mean(cnn_pred == y_test))
-
-

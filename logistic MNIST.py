@@ -3,9 +3,9 @@ from sklearn.model_selection import train_test_split
 from mnist import MNIST
 from sklearn.linear_model import LogisticRegression,SGDClassifier
 import numpy as np
-import time
+import time,os
 from LogisticRegression_raw import LogisticRegression as LR_raw
-import os
+
 mndata = MNIST(os.path.join('MNIST')) # use this way if run locally, since MNIST is downloaded already
 X_train, y_train = mndata.load_training()
 X_test, y_test = mndata.load_testing()
