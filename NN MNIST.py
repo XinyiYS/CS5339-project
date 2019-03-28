@@ -8,11 +8,10 @@ import numpy as np
 from mnist import MNIST
 import os
 
-mndata = MNIST(os.path.join('MNIST')) # use this way if run locally, since MNIST is downloaded already
-X_train, y_train = mndata.load_training()
-X_test, y_test = mndata.load_testing()
-X_train,y_train = np.array(X_train).astype('float32')/255,np.array(y_train).astype('int64')
-X_test, y_test = np.array(X_test).astype('float32')/255,np.array(y_test).astype('int64')
+
+from MNIST_help import get_mnist
+
+X_train, y_train, X_test, y_test = get_mnist()
 
 torch.manual_seed(0);
 device = 'cuda' if torch.cuda.is_available() else 'cpu'

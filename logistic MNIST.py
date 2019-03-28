@@ -5,13 +5,10 @@ from sklearn.linear_model import LogisticRegression,SGDClassifier
 import numpy as np
 import time,os
 from LogisticRegression_raw import LogisticRegression as LR_raw
+from MNIST_help import get_mnist
 
-mndata = MNIST(os.path.join('MNIST')) # use this way if run locally, since MNIST is downloaded already
-X_train, y_train = mndata.load_training()
-X_test, y_test = mndata.load_testing()
-X_train,y_train = np.array(X_train).astype('float32')/255,np.array(y_train).astype('int64')
-X_test, y_test = np.array(X_test).astype('float32')/255,np.array(y_test).astype('int64')
 
+X_train, y_train, X_test, y_test = get_mnist()
 print(X_train.shape,X_test.shape)
 
 
