@@ -26,17 +26,18 @@ def train_MNIST_one_v_one(d1,d2):
     data_helper = MNIST_helper('MNIST')
     X_train, y_train, X_test, y_test = data_helper.get_mnist([d1,d2])
     # import LogisticRegression_raw
-    logreg_SGD = SGDClassifier(loss='log',max_iter=1)
+    logreg_SGD = SGDClassifier(loss='log',max_iter=100,eta0=0.1)
     start_time = time.time()
     # Create an instance of Logistic Regression Classifier and fit the data.
     logreg_SGD.fit(X_train, y_train)
     print("--- %s seconds ---" % (time.time() - start_time))
     preds = logreg_SGD.predict(X_test)
     print((preds == y_test).mean())
+    print((preds[:20]==y_test[:20]).mean())
+    print(preds[:20],y_test[:20])
 
-
-    coefs = logreg_SGD.coef_
-    print(coefs)
+    # coefs = logreg_SGD.coef_
+    # print(coefs)
     def create_adversarial(epsilon = 1/256):
         X_train[:10] +=  epsilon * np.sign()
         return
