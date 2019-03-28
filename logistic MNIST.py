@@ -5,8 +5,8 @@ from sklearn.linear_model import LogisticRegression,SGDClassifier
 import numpy as np
 import time
 from LogisticRegression_raw import LogisticRegression as LR_raw
-
-mndata = MNIST('./MNIST') # use this way if run locally, since MNIST is downloaded already
+import os
+mndata = MNIST(os.path.join('MNIST')) # use this way if run locally, since MNIST is downloaded already
 X_train, y_train = mndata.load_training()
 X_test, y_test = mndata.load_testing()
 X_train,y_train = np.array(X_train).astype('float32')/255,np.array(y_train).astype('int64')
