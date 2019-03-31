@@ -1,5 +1,6 @@
+import numpy as np
 class LogisticRegression:
-    def __init__(self, lr=0.01, num_iter=100000, fit_intercept=True, verbose=False):
+    def __init__(self, lr=0.01, num_iter=100, regularisation ='l1',fit_intercept=False, verbose=False):
         self.lr = lr
         self.num_iter = num_iter
         self.fit_intercept = fit_intercept
@@ -9,6 +10,7 @@ class LogisticRegression:
         # intercept = np.ones((X.shape[0], 1))
         # return np.concatenate((intercept, X), axis=1)
 
+
     def __sigmoid(self, z):
         return 1 / (1 + np.exp(-z))
 
@@ -17,27 +19,28 @@ class LogisticRegression:
 
     def __forward(self,X,W):
         logits = np.dot(X, W)
-        return __sigmoid(logits)[:,0]
+        return self.__sigmoid(logits)[:,0]
 
     def __gradient(self, X, y, pred):
         return np.dot((pred - y), X).T/y.shape[0]
 
-    def optimize_sgd(self, X_train, y_train, num_iter):
-
+    def __optimize_sgd(self, X_train, y_train, num_iter):
+        theta = np.random.random([X_train.shape[1], 1])
+        eta = self.lr
         for iter in range(num_iter):
             random_index = np.random.randint(0,len(X_train),1)
             X_batch, y_batch = X_train[random_index], y_train[random_index]
-            pred = __forward(X_batch, self.W)
-            dw = __gradient(X_batch, y_batch, pred).reshape(N_FEATURES,1)
-            self.W -= self.lr * dw
-            self.lr *= .9999
+            pred = self.__forward(X_batch, theta)
+            dw = self.__gradient(X_batch, y_batch, pred).reshape(X_train.shape[1],1)
+            theta -= eta * dw
+            eta *= .9999
 
             if(self.verbose == True and i % 1000 == 0):
                 z = np.dot(X, self.theta)
                 h = self.__sigmoid(z)
                 print('loss: {self.__loss(h, y)}')
 
-        return W
+        return theta
 
 
     def generate_adversarial(self,X_batch,y_batch,theta,epsilon):
@@ -66,13 +69,8 @@ class LogisticRegression:
     def fit(self, X, y):
         # if self.fit_intercept:
             # X = self.__add_intercept(X)
-
-        # weights initialization
-        self.theta = np.zeros(X.shape[1])
-        self.theta = optimize_sgd(self, X, y, self.num_iter)
-
+        self.theta = self.__optimize_sgd(X, y, self.num_iter)
         return self.theta
-
 
 
     def fit_adversarially(self, X, y, epsilon):
@@ -104,5 +102,5 @@ class LogisticRegression:
 
         return self.__sigmoid(np.dot(X, self.theta))
 
-    def predict(self, X, threshold):
-        return self.predict_prob(X) >= threshold
+    def predict(self, X, threshold=0.5):
+        return int(self.predict_prob(X) >= threshold)

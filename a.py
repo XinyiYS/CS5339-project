@@ -1,6 +1,10 @@
 import numpy as np
-a =np.array( [1,2,3,3,2,3,2,32,1,4])
-import timeit
-digits=[2,3,4]
-timeit.timeit([_ in digits for _ in a ])
-timeit.timeit((sum([ a==digit for digit in digits]) ) >0)
+from LogisticRegression_raw import LogisticRegression
+from MNIST_helper import MNIST_helper
+
+data_helper = MNIST_helper('MNIST')
+X_train, y_train, X_test, y_test = data_helper.get_mnist([4,9])
+
+
+lg = LogisticRegression(lr=0.05, num_iter=100, fit_intercept=False, verbose=False)
+lg.fit(X_train,y_train)
