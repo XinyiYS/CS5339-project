@@ -34,9 +34,22 @@ def predict(X,W):
 def plot_digit(some_digit):
 
     some_digit_image = some_digit.reshape(28,28)
-    plt.imshow(some_digit_image, cmap = 'gray', interpolation = "nearest")
+    plt.imshow(some_digit_image, cmap = 'viridis', interpolation = "nearest")
     plt.axis("off")
     plt.show()
+
+def save_digit_plot(some_digit,digit,adversarial=False):
+    some_digit_image = some_digit.reshape(28,28)
+    plt.imshow(some_digit_image, cmap = 'viridis', interpolation = "nearest")
+    plt.axis("off")
+    if adversarial:
+        plt.savefig('{}_adversarial.png'.format(str(digit)))
+    else:
+        plt.savefig('{}.png'.format(str(digit),adversarial))
+
+    # plt.show()
+
+    return
 
 # def get_next_batch():
     # return df.iloc[start:end,:][features], df.iloc[start:end]['y']
@@ -52,31 +65,33 @@ for step in range(STEPS):
     W -= LEARNING_RATE*dw
     LEARNING_RATE *= .9999
 
-    def generate_adversarial(epsilon,W):
-        # random_batch_size = 20
-        # random_batch_indices = np.random.choice(X_train.shape[0],random_batch_size,replace=False))
-        # X_batch,y_batch = X_train[random_batch_indices],y_train[random_batch_indices]
+    def generate_adversarial(epsilon,W,data_index):
 
         # derivative of cost function wrt x, which is a vector
-        X,y = X_train[0],y_train[0]
+        X,y = X_train[data_index],y_train[data_index]
         z = np.dot(X,W)
         sigmoid_z = _sigmoid(z)
         dx = (y * (sigmoid_z -1 )/(sigmoid_z)  + (1 - y) * (sigmoid_z)/(sigmoid_z-1) ) * W
 
         X_adversarial = X + (epsilon * np.sign(dx)).reshape(X.shape[0])
+        save_digit_plot(X,y_train[data_index])
+        save_digit_plot(X_adversarial,y_train[data_index],True)
 
-        plot_digit(X)
-        plot_digit(X_adversarial)
         X = X.reshape(1,-1)
         X_adversarial =X_adversarial.reshape(1,-1)
         W = W.reshape(-1,1)
         print("l1 norm of X - X_adversarial is ", np.linalg.norm(X-X_adversarial))
         print(forward(X,W), forward(X_adversarial,W))
+
         # print((X,W), predict(X_adversarial,W))
         return X, X_adversarial
 
     if step == STEPS - 1:
-        generate_adversarial(0.04,W)
+
+        # generate_adversarial(0.04,W,0)
+        # generate_adversarial(0.04,W,1)
+        generate_adversarial(-0.04,W,-2)
+
 
 preds = predict(X_test,W)
 print((preds==y_test).mean())
